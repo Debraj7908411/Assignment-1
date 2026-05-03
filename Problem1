@@ -1,0 +1,36 @@
+import java.util.*;
+
+public class Problem1 {
+
+    public static int maxCyclicSubstringSum(String s) {
+        int n = s.length();
+        String temp = s + s;
+
+        int[] freq = new int[26];
+        int left = 0, currentSum = 0, maxSum = 0;
+
+        for (int right = 0; right < temp.length(); right++) {
+
+            while (freq[temp.charAt(right) - 'a'] > 0 || (right - left + 1) > n) {
+                freq[temp.charAt(left) - 'a']--;
+                currentSum -= (temp.charAt(left) - 'a' + 1);
+                left++;
+            }
+
+            freq[temp.charAt(right) - 'a']++;
+            currentSum += (temp.charAt(right) - 'a' + 1);
+
+            maxSum = Math.max(maxSum, currentSum);
+            
+        }
+
+        return maxSum;
+    }
+
+   public static void main(String[] args) {
+    try (Scanner sc = new Scanner(System.in)) {
+        String s = sc.next();
+        System.out.println(maxCyclicSubstringSum(s));
+    }
+}
+}
